@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Brick Wall Launcher · Descargas</title>
+  <meta name="description" content="Descarga el launcher oficial de Brick Wall para Windows, macOS y Linux." />
+  <meta name="theme-color" content="#03111c" />
+
+  <meta property="og:title" content="Brick Wall Launcher · Descargas" />
+  <meta property="og:description" content="Descarga el launcher oficial de Brick Wall para Windows, macOS y Linux." />
+  <meta property="og:image" content="assets/logo.png" />
+
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Oxanium:wght@400;500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body data-screen="home" class="is-loading">
+
+  <!-- ================================================= FONDO -->
+  <div class="bg" aria-hidden="true">
+    <div class="bg__base"></div>
+    <div class="bg__clouds"><i></i><i></i><i></i></div>
+    <div class="bg__rings"></div>
+    <div class="bg__glow"></div>
+    <canvas class="bg__net" id="net"></canvas>
+    <div class="crt"><span class="crt__roll"></span></div>
+  </div>
+
+  <!-- ================================================= APP -->
+  <div class="app" id="app">
+    <header class="hud">
+      <a class="brand" id="brand" href="./" aria-label="Brick Wall · ir al inicio">
+        <span class="brand__mark" id="brand-mark" aria-hidden="true"></span>
+        <span class="brand__name" id="brand-name">Brick Wall</span>
+        <span class="brand__badge">LAUNCHER</span>
+      </a>
+
+      <div class="hud__right">
+      <!-- Música: volumen y silenciar -->
+      <div class="snd snd--hud bezel bezel--slim" data-snd></div>
+
+      <!-- Comunidad: menú desplegable -->
+      <div class="dd" id="dd">
+        <button class="dd__btn" id="dd-btn" type="button" aria-expanded="false" aria-controls="dd-panel">
+          <span class="dd__btn-icon" id="dd-icon" aria-hidden="true"></span>
+          <span class="dd__btn-label">COMUNIDAD</span>
+          <span class="dd__count" id="dd-count" hidden><i class="led led--sm"></i><b id="dd-count-n">0</b></span>
+          <span class="dd__chev" id="dd-chev" aria-hidden="true"></span>
+        </button>
+
+        <div class="dd__panel bezel" id="dd-panel" role="region" aria-label="Comunidad">
+          <div class="bezel__in">
+            <div class="bezel__head"><i class="led"></i><span>COMUNIDAD BRICK WALL</span><span class="grip"></span></div>
+            <div class="dd__body">
+              <p class="dd__label">REDES SOCIALES</p>
+              <ul class="dd__socials" id="dd-socials"></ul>
+
+              <div class="dd__online" id="dd-online" hidden>
+                <p class="dd__label">
+                  <span>EN LÍNEA AHORA · DISCORD</span>
+                  <span class="lcd lcd--sm" id="dd-online-n">0</span>
+                </p>
+                <ul class="friends" id="friends"></ul>
+                <a class="dd__join" id="dd-join" href="#" target="_blank" rel="noopener noreferrer" hidden>UNIRSE AL SERVIDOR</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </header>
+
+    <main class="stage" id="stage">
+      <h1 class="sr-only">Descargar el launcher de Brick Wall</h1>
+
+      <!-- Orbe -->
+      <div class="orb" id="orb" aria-hidden="true">
+        <svg class="orb__shells" viewBox="-100 -100 200 200">
+          <defs>
+            <radialGradient id="shellFill" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#c9fffb" stop-opacity=".42" />
+              <stop offset="55%" stop-color="#22c3cf" stop-opacity=".16" />
+              <stop offset="100%" stop-color="#0a4f8a" stop-opacity=".06" />
+            </radialGradient>
+          </defs>
+          <g class="orb__rings">
+            <circle r="97" class="ring ring--dash" />
+            <path class="ring ring--arc" d="M -88 -40 A 96 96 0 0 1 40 -88" />
+            <path class="ring ring--arc2" d="M 70 66 A 96 96 0 0 1 -20 94" />
+          </g>
+          <path class="shell shell--1" />
+          <path class="shell shell--2" />
+          <path class="shell shell--3" />
+        </svg>
+        <div class="orb__core">
+          <div class="orb__lens">
+            <img id="orb-logo" src="assets/logo.png" alt="" width="200" height="200" decoding="async" />
+          </div>
+          <span class="orb__gloss"></span>
+        </div>
+      </div>
+
+      <svg class="wires" id="wires" aria-hidden="true"></svg>
+
+      <!-- Pantalla principal -->
+      <section class="screen" id="screen-home" data-screen="home" aria-label="Menú principal">
+        <nav class="menu" aria-label="Elige tu sistema">
+          <div class="menu__head bezel enter" style="--i:0">
+            <div class="bezel__in">
+              <i class="led"></i>
+              <span class="menu__title">SELECCIONA TU SISTEMA</span>
+              <span class="grip" aria-hidden="true"></span>
+            </div>
+          </div>
+          <ul class="menu__list" id="menu" role="menu"></ul>
+        </nav>
+      </section>
+
+      <!-- Pantalla de instalador -->
+      <section class="screen" id="screen-platform" data-screen="platform" aria-label="Instalador">
+        <div class="drive bezel enter" style="--i:0">
+          <div class="bezel__in">
+            <button class="back" id="back" type="button" aria-label="Volver al menú">
+              <span class="back__key">B</span><span>VOLVER</span>
+            </button>
+            <div class="drive__main">
+              <div class="drive__title">BRICK WALL LAUNCHER</div>
+              <div class="drive__data" id="drive-date" hidden>
+                <span>PUBLICADO <b id="drive-date-v"></b></span>
+              </div>
+            </div>
+            <span class="grip grip--v" aria-hidden="true"></span>
+          </div>
+        </div>
+
+        <div class="install">
+          <div class="install__socket enter" style="--i:1" data-wire>
+            <span class="install__icon" id="p-icon"></span>
+          </div>
+
+          <div class="install__panel bezel bezel--brick enter" style="--i:2">
+            <div class="bezel__in">
+              <div class="install__tab">
+                <button class="tab-arrow" id="p-prev" type="button" aria-label="Plataforma anterior">◄</button>
+                <span class="install__name" id="p-name">Windows</span>
+                <button class="tab-arrow" id="p-next" type="button" aria-label="Plataforma siguiente">►</button>
+              </div>
+              <div class="install__body">
+                <dl class="spec" id="spec">
+                  <div class="spec__row"><dt>ARCHIVO</dt><dd id="p-file">—</dd></div>
+                  <div class="spec__row" id="row-size" hidden><dt>TAMAÑO</dt><dd id="p-size">—</dd></div>
+                  <div class="spec__row"><dt>REQUISITOS</dt><dd id="p-req">—</dd></div>
+                  <div class="spec__row" id="row-dl" hidden><dt>DESCARGAS</dt><dd id="p-dls">—</dd></div>
+                </dl>
+                <a class="dl" id="dl" href="#" rel="noopener">
+                  <span class="dl__key">A</span>
+                  <span class="dl__label" id="dl-label">DESCARGAR PARA WINDOWS</span>
+                  <span class="dl__icon" id="dl-icon"></span>
+                </a>
+                <a class="releases" id="releases" href="#" target="_blank" rel="noopener" hidden>TODAS LAS VERSIONES ↗</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guía de instalación -->
+          <div class="guide bezel enter" style="--i:3">
+            <div class="bezel__in">
+              <div class="bezel__head"><i class="led"></i><h2>INSTALACIÓN · PASO A PASO</h2><span class="grip"></span></div>
+              <div class="guide__body">
+                <ol class="steps" id="p-steps"></ol>
+                <div class="tips" id="p-tips-wrap">
+                  <h3 class="tips__title"><i class="led led--amber"></i>BUENO SABERLO</h3>
+                  <ul class="tips__list" id="p-tips"></ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ayuda en Discord -->
+          <div class="help bezel bezel--slim enter" style="--i:4">
+            <div class="bezel__in">
+              <span class="help__icon" id="help-icon" aria-hidden="true"></span>
+              <p class="help__txt"><strong id="help-title">¿Algún problema?</strong> <span id="help-text"></span></p>
+              <a class="help__btn" id="help-btn" href="#" target="_blank" rel="noopener noreferrer">IR AL DISCORD <span id="help-go" aria-hidden="true"></span></a>
+            </div>
+          </div>
+
+          <!-- Novedades -->
+          <div class="news bezel enter" style="--i:5">
+            <div class="bezel__in">
+              <div class="bezel__head"><i class="led led--amber"></i><h2>NOVEDADES</h2><span class="grip"></span></div>
+              <ul class="news__list" id="p-notes"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="bar">
+      <p class="copy">© <span id="year">2026</span> <span id="copy-text">Brick Wall · Página web oficial</span></p>
+    </footer>
+  </div>
+
+  <!-- ================================================= INTRO -->
+  <div class="boot" id="boot" role="dialog" aria-modal="true" aria-label="Inicio del sistema">
+    <div class="boot__gate" id="boot-gate">
+      <div class="boot__mark"><img src="assets/logo.png" alt="Brick Wall" /></div>
+      <p class="boot__sys">BRICK WALL SYSTEM</p>
+      <button class="boot__start" id="boot-start" type="button">
+        <span class="boot__key">A</span><span>INICIAR SISTEMA</span>
+      </button>
+      <button class="boot__omit" id="boot-omit" type="button">Omitir intro</button>
+      <p class="boot__hint">Experiencia con sonido</p>
+      <div class="snd snd--gate bezel bezel--slim" data-snd></div>
+    </div>
+
+    <video class="boot__video" id="boot-video" playsinline preload="auto" poster="assets/intro-poster.jpg" aria-hidden="true"></video>
+
+    <button class="boot__skip" id="boot-skip" type="button">OMITIR ▸</button>
+  </div>
+
+  <!-- ================================================= FALLO: PRÓXIMAMENTE -->
+  <div class="err" id="err" role="alertdialog" aria-modal="true" aria-labelledby="err-title" aria-describedby="err-msg" hidden>
+    <div class="err__box bezel bezel--brick">
+      <div class="bezel__in">
+        <div class="err__head"><i class="led led--red led--blink"></i><span id="err-head">ERROR · SISTEMA NO DISPONIBLE</span><span class="grip"></span></div>
+        <div class="err__body">
+          <div class="err__icon"><span id="err-icon"></span><span class="err__warn" id="err-warn"></span></div>
+          <div class="err__txt">
+            <p class="err__sub" id="err-sub">LAUNCHER PARA MACOS</p>
+            <h2 class="err__title" id="err-title">PRÓXIMAMENTE</h2>
+            <p class="err__msg" id="err-msg">Disculpen las molestias.</p>
+          </div>
+        </div>
+        <button class="err__ok" id="err-ok" type="button"><span class="dl__key">A</span><span>ACEPTAR</span></button>
+      </div>
+    </div>
+  </div>
+  <div class="glitch" id="glitch" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/icons.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/background.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
