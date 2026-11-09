@@ -1,4 +1,3 @@
-/* Iconos SVG (heredan el color con currentColor) */
 window.BW_ICONS = {
     windows:
       '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.2 10.3 4.1v7.2H3zM11.3 4l9.7-1.5v8.8h-9.7zM3 12.3h7.3v7.3L3 18.6zM11.3 12.3H21V21l-9.7-1.4z"/></svg>',
