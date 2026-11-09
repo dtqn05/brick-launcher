@@ -1,41 +1,6 @@
 # Brick Wall · Página de descargas del launcher
 
-Página única para descargar **Brick Launcher**, con estética retro futurista Y2K.
-Es HTML, CSS y JavaScript puro: **no necesita npm ni ninguna instalación**.
-Se sube tal cual a GitHub y se publica con GitHub Pages.
-
-## Publicar en GitHub Pages
-
-1. Crea un repositorio en GitHub (por ejemplo `brickwall-launcher`).
-2. Sube **todo el contenido de esta carpeta** a la raíz del repositorio
-   (en la web de GitHub: *Add file → Upload files* y arrastra los archivos y carpetas).
-   Comprueba que `index.html` queda en la raíz, no dentro de otra carpeta.
-3. Ve a **Settings → Pages → Build and deployment**:
-   - *Source*: **Deploy from a branch**
-   - *Branch*: **main** y carpeta **/ (root)** → **Save**
-4. En 1–2 minutos estará en `https://TU-USUARIO.github.io/brickwall-launcher/`.
-
-Todas las rutas son relativas, así que funciona dentro de cualquier repositorio.
-El archivo `.nojekyll` debe subirse también (evita que GitHub procese la web).
-
-> Para verla en tu ordenador antes de subirla, abre `index.html` con doble clic.
-> Los datos de Discord y GitHub (si los activas) solo cargan cuando está publicada.
-
-## Estructura
-
-```
-index.html                 la página
-.nojekyll                  necesario para GitHub Pages
-css/styles.css             estilos
-js/config.js               ← lo único que necesitas editar
-js/main.js                 navegación, pantallas, intro y controles
-js/audio.js                música y efectos de sonido
-js/background.js           red de líneas y motas de luz del fondo
-js/icons.js                iconos
-assets/                    logo, favicons y vídeo de la intro (intro.mp4)
-downloads/                 instaladores que se descargan desde la página
-  BrickLauncher_1.0.0_x64-setup.exe
-```
+Página única para descargar **Brick Launcher**
 
 ## Configurar (`js/config.js`)
 
@@ -73,5 +38,4 @@ downloads/                 instaladores que se descargan desde la página
 
 La música y los efectos son **originales**: se generan en el navegador (Web Audio API),
 sin archivos de audio de terceros. Los clics usan notas del acorde que suena en la
-música en ese momento, así siempre encajan. Nada suena hasta que el visitante
-interactúa (requisito de los navegadores). El único audio externo es el de tu vídeo de intro.
+música en ese momento
