@@ -1,6 +1,3 @@
-/* ==========================================================================
-   Fondo: red esférica de líneas, motas de luz y palabras flotantes
-   ========================================================================== */
 (() => {
   const canvas = document.getElementById("net");
   if (!canvas) return;
