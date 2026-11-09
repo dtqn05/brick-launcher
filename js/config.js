@@ -98,7 +98,7 @@ window.BRICKWALL_CONFIG = {
   /* Iconos: discord, youtube, tiktok, kick, twitch, instagram, x
      handle es opcional (p. ej. "@brickwall"). Borra una línea para ocultar esa red. */
   socials: [
-    { name: "Discord",   icon: "discord",   url: "#", handle: "" },
+    { name: "Discord",   icon: "discord",   url: "https://discord.gg/u4sYM8QTkw", handle: "" },
     { name: "YouTube",   icon: "youtube",   url: "#", handle: "" },
     { name: "TikTok",    icon: "tiktok",    url: "#", handle: "" },
     { name: "Kick",      icon: "kick",      url: "#", handle: "" },
