@@ -1,17 +1,3 @@
-/* ==========================================================================
-   Sistema de sonido de Brick Wall
-   --------------------------------------------------------------------------
-   Todo el audio de la página es ORIGINAL y se genera en el navegador con
-   Web Audio API: no se usa ningún archivo de música ni audio de terceros.
-   (El único audio externo es el de tu vídeo de intro, assets/intro.mp4.)
-
-   - Música: tema electrónico retro en bucle (pads, arpegio con eco, bajo y
-     batería suave) a 96 BPM sobre Am9 – Fmaj7 – Cmaj9 – Em7.
-   - Efectos: cada clic suena con notas del acorde que esté sonando en ese
-     momento, así encajan con la música («con flow»).
-   - Un único control: volumen + silenciar. Se recuerda en el navegador.
-   - Nada suena hasta que el visitante interactúa (requisito del navegador).
-   ========================================================================== */
 window.BWAudio = (() => {
   const CFG = (window.BRICKWALL_CONFIG && window.BRICKWALL_CONFIG.audio) || {};
   const store = {
@@ -73,7 +59,6 @@ window.BWAudio = (() => {
     wet.gain.value = 0.38;
     reverb.connect(wet).connect(master);
 
-    // Eco de corchea con puntillo (ping-pong simple)
     delay = ctx.createDelay(2);
     delay.delayTime.value = (60 / BPM) * 0.75;
     const fb = ctx.createGain();
@@ -167,13 +152,11 @@ window.BWAudio = (() => {
     src.stop(start + dur + 0.05);
   }
 
-  /* ------------------------------------------------------------ Música */
   const BPM = 96;
   const MUSIC_LEVEL = 1.8;
   const S16 = 60 / BPM / 4;
   const midi = (n) => 440 * Math.pow(2, (n - 69) / 12);
 
-  // Acordes (notas MIDI): raíz del bajo, pad y notas para arpegio/efectos
   const CHORDS = [
     { name: "Am9",   bass: 45, pad: [57, 60, 64, 67, 71], arp: [69, 72, 76, 79, 83, 76] },
     { name: "Fmaj7", bass: 41, pad: [53, 57, 60, 64, 69], arp: [65, 69, 72, 76, 81, 72] },
@@ -318,7 +301,6 @@ window.BWAudio = (() => {
     musicBus.gain.linearRampToValueAtTime(0, t + fade);
   }
 
-  /* ------------------------------------------------------------ Efectos */
   let lastMove = 0, lastNote = -1;
   const pick = (arr) => arr[(Math.random() * arr.length) | 0];
 
@@ -335,7 +317,6 @@ window.BWAudio = (() => {
       tone({ f: midi(n + 12), type: "sine", dur: 0.04, gain: 0.11, release: 0.25, rev: 0.25, echo: 0.25 });
       tone({ f: midi(n + 24), type: "sine", dur: 0.02, gain: 0.02, release: 0.12, rev: 0.2 });
     },
-    // Clic / confirmar: arpegio ascendente del acorde
     select() {
       const a = currentChord().arp;
       [a[0], a[1], a[2], a[4]].forEach((n, i) =>
@@ -343,7 +324,6 @@ window.BWAudio = (() => {
       );
       hiss({ dur: 0.12, gain: 0.03, freq: 5000, rev: 0.3 });
     },
-    // Volver: dos notas hacia abajo
     back() {
       const a = currentChord().arp;
       tone({ f: midi(a[2] + 12), type: "triangle", dur: 0.06, gain: 0.11, release: 0.2, rev: 0.3, echo: 0.2 });
@@ -355,26 +335,22 @@ window.BWAudio = (() => {
       tone({ f: midi(a[3] + 12), dur: 0.04, gain: 0.1, release: 0.15, rev: 0.25, echo: 0.3 });
       hiss({ dur: 0.04, gain: 0.04, type: "bandpass", freq: 3000, q: 3 });
     },
-    // Descargar: acorde completo brillante
     download() {
       const a = currentChord().arp;
       a.slice(0, 5).forEach((n, i) => tone({ f: midi(n + 12), at: i * 0.055, dur: 0.08, gain: 0.11, release: 0.6, rev: 0.6, echo: 0.35 }));
       tone({ f: 110, to: 50, dur: 0.3, gain: 0.25, release: 0.1, rev: 0 });
     },
-    // Fallo (plataforma no disponible): zumbido digital con interferencias
     error() {
       tone({ f: 233, type: "square", dur: 0.09, gain: 0.07, release: 0.02, lp: 1400, rev: 0.1 });
       tone({ f: 220, type: "square", at: 0.11, dur: 0.16, gain: 0.07, release: 0.04, lp: 1400, rev: 0.15 });
       tone({ f: 110, type: "sawtooth", at: 0.11, dur: 0.16, gain: 0.04, release: 0.04, lp: 600, rev: 0 });
       for (let i = 0; i < 6; i++) hiss({ at: i * 0.045 + Math.random() * 0.02, dur: 0.025, gain: 0.05, type: "bandpass", freq: 1200 + Math.random() * 4000, q: 2 });
     },
-    // Abrir un enlace
     link() {
       const a = currentChord().arp;
       tone({ f: midi(a[1] + 12), dur: 0.05, gain: 0.1, release: 0.25, rev: 0.4, echo: 0.3 });
       tone({ f: midi(a[3] + 12), at: 0.06, dur: 0.05, gain: 0.08, release: 0.4, rev: 0.5, echo: 0.3 });
     },
-    // Montar ladrillos (logo de la esquina): notas que suben, una por ladrillo
     build() {
       const a = currentChord().arp;
       [a[0], a[1], a[2], a[3], a[4], a[1] + 12, a[2] + 12].forEach((n, i) => {
@@ -389,7 +365,6 @@ window.BWAudio = (() => {
     try { SFX[name](); } catch { /* el audio nunca rompe la interfaz */ }
   }
 
-  /* ------------------------------------------------------------ API */
   function notify() { listeners.forEach((fn) => fn({ ...state })); }
 
   function unlock() {
